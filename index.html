@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player ID Test</title>
+</head>
+
+<body>
+    <h1>Player ID Test</h1>
+    <p id="playerIdDisplay">Waiting for Player ID...</p>
+
+    <script>
+        function playerIdReceived(playerId) {
+            alert("Player ID: " + playerId);
+            var playerIdDisplay = document.getElementById('playerIdDisplay');
+            if (playerId) {
+                // 받은 Player ID를 <p> 태그에 표시
+                playerIdDisplay.textContent = "Player ID: " + playerId;
+                clearInterval(playerIdTimer);
+            } else {
+                playerIdDisplay.textContent = "No Player ID received or Player ID is empty.";
+            }
+        }
+
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.playerIdHandler) {
+            var playerIdTimer = setInterval(function () {
+                window.webkit.messageHandlers.playerIdHandler.postMessage(null);
+            }, 100);
+        }
+    </script>
+
+</body>
+
+</html>
